@@ -1,4 +1,4 @@
 <p>
-  <span *ngFor="let star of stars" class="starrating glyphicon glyphicon-star" [class.glyphicon-star-empty]="star"></span>
-  <span>{{ rating }} stars</span>
+  <i *ngFor="let star of stars" class="fa-star" [class.far]="star" [class.fas]="!star"></i>
+  <span class="ml-2">{{ rating }} stars</span>
 </p>
