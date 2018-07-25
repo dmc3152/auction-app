@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from "@angular/router";
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { AppComponent } from './components/application/app.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
@@ -12,6 +13,8 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { SearchComponent } from './components/search/search.component';
 import { StarsComponent } from './components/stars/stars.component';
+
+import { FilterPipe } from "./pipes/filter.pipe";
 
 import { ProductService } from "./services/product.service";
 
@@ -25,7 +28,8 @@ import { ProductService } from "./services/product.service";
     ProductDetailComponent,
     ProductItemComponent,
     SearchComponent,
-    StarsComponent
+    StarsComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -33,11 +37,13 @@ import { ProductService } from "./services/product.service";
       { path: '', component: HomeComponent },
       { path: 'products/:productId', component: ProductDetailComponent }
     ]),
-    CarouselModule
-    ],
-      providers: [
-        ProductService
-      ],
-      bootstrap: [AppComponent]
+    CarouselModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [
+    ProductService
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
