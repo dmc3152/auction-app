@@ -29,6 +29,10 @@ export class ProductService {
 
   constructor() { }
 
+  getAllCategories(): string[] {
+    return ['Books', 'Electronics', 'Hardware'];
+  }
+
   getProducts(): Array<Product> {
     return products.map(p => new Product(p.id, p.title, p.price, p.rating, p.description, p.categories));
   }
