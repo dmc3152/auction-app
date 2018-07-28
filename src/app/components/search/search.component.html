@@ -1,5 +1,5 @@
 <form [formGroup]="formModel" (ngSubmit)="onSearch()" novalidate>
-  <div class="form-group" [class.has-error]="formModel.hasError('minlength', 'title')">
+  <div class="form-group" [class.has-error]="formModel.hasError('minlength', ['title'])">
     <label for="productTitle">Product title:</label>
     <input type="text"
            id="productTitle"
@@ -7,11 +7,11 @@
            class="form-control"
            formControlName="title"
            minlength="3">
-    <span class="help-block" [hidden]="!formModel.hasError('minlength', 'title')">
+    <span class="help-block" [hidden]="!formModel.hasError('minlength', ['title'])">
       Type at least 3 characters
     </span>
   </div>
-  <div class="form-group" [class.has-error]="formModel.hasError('positiveNumber', 'price')">
+  <div class="form-group" [class.has-error]="formModel.hasError('positiveNumber', ['price'])">
     <label for="productPrice">Product price:</label>
     <input id="productPrice"
            name="productPrice"
@@ -21,7 +21,7 @@
            placeholder="Price"
            class="form-control"
            formControlName="price">
-    <span class="help-block" [hidden]="!formModel.hasError('positiveNumber', 'price')">
+    <span class="help-block" [hidden]="!formModel.hasError('positiveNumber', ['price'])">
       Price is not a positive number
     </span>
   </div>

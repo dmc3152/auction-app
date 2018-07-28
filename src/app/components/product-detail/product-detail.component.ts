@@ -1,26 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgClass } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+
 import { Product, Review, ProductService } from "../../services/product.service";
+import { BidService } from "../../services/bid.service";
+import { StarsComponent } from "../stars/stars.component";
 
 @Component({
   selector: 'auction-product-page',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css']
+  styleUrls: ['./product-detail.component.css'],
+  viewProviders: [NgClass, StarsComponent]
 })
-export class ProductDetailComponent implements OnInit {
-  product: Product;
-  reviews: Review[];
+export class ProductDetailComponent implements OnInit, OnDestroy {
+  product: Product = new Product();
+  reviews: Review[] = [];
+
+  currentBid: number;
   newComment: string;
   newRating: number;
-  isReviewHidden: boolean = true;
 
-  constructor(route: ActivatedRoute, productService: ProductService) {
-    let prodId: number = parseInt(route.snapshot.params['productId']);
-    this.product = productService.getProductById(prodId);
-    this.reviews = productService.getReviewsForProduct(this.product.id);
+  isReviewHidden: boolean = true;
+  isWatching: boolean = false;
+
+  private subscription: Subscription;
+
+  constructor( route: ActivatedRoute,
+               productService: ProductService,
+               private bidService: BidService) {
+
+    const productId = parseInt(route.snapshot.params['productId']);
+
+    productService
+      .getProductById(productId)
+      .subscribe(
+        product => {
+          this.product = product;
+          this.currentBid = product.price;
+        },
+        error => console.error(error));
+
+    productService
+      .getReviewsForProduct(productId)
+      .subscribe(
+        reviews => this.reviews = reviews,
+        error => console.error(error));
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy(): any {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  toggleWatchProduct() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+      this.isWatching = false;
+    } else {
+      this.isWatching = true;
+      this.subscription = this.bidService.watchProduct(this.product.id)
+        .subscribe(
+          products => this.currentBid = products.find((p: any) => p.productId === this.product.id).bid,
+          error => console.log(error));
+    }
   }
 
   addReview() {

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from "@angular/router";
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpModule, Http } from "@angular/http";
 
 import { AppComponent } from './components/application/app.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
@@ -17,6 +18,8 @@ import { StarsComponent } from './components/stars/stars.component';
 import { FilterPipe } from "./pipes/filter.pipe";
 
 import { ProductService } from "./services/product.service";
+import { BidService } from "./services/bid.service";
+import { WebsocketService } from "./services/websocket.service";
 
 @NgModule({
   declarations: [
@@ -39,10 +42,13 @@ import { ProductService } from "./services/product.service";
     ]),
     CarouselModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpModule
   ],
   providers: [
-    ProductService
+    ProductService,
+    BidService,
+    WebsocketService
   ],
   bootstrap: [AppComponent]
 })

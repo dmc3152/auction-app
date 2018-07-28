@@ -11,7 +11,7 @@
   </div>
 </div>
 <div class="row">
-  <div *ngFor="let product of products | filter:'title':filterCriteria" class="col-sm-4">
+  <div *ngFor="let product of products | async | filter:'title':filterCriteria" class="col-sm-4">
     <auction-product-item [product]="product"></auction-product-item>
   </div>
 </div>

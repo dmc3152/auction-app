@@ -2,13 +2,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'auction-stars',
-  inputs: ['rating', 'count'],
   templateUrl: './stars.component.html',
   styleUrls: ['./stars.component.css']
 })
 export class StarsComponent implements OnInit {
   private _rating;
-  private stars: boolean[];
+  stars: boolean[];
   private maxStars: number = 5;
   @Input() readOnly: boolean = true;
   @Input() get rating(): number {
